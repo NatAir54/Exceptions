@@ -3,11 +3,11 @@ package com.epam.rd.qa.basicio;
 import java.util.Random;
 
 public class Demo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MatrixException {
         mulMain(args);
     }
 
-    static void mulMain(String[] args) {
+    static void mulMain(String[] args) throws MatrixException {
         Random r = new Random(10);
         Matrix m1 = randomInit(r, 5, 5);
         Matrix m2 = randomInit(r, 5, 5);
@@ -25,7 +25,7 @@ public class Demo {
         System.out.printf("Seed  2 - m6.multiply(m5) %s%n", m6.multiply(m5));
     }
 
-    static void subMain(String[] args) {
+    static void subMain(String[] args) throws MatrixException {
         Random r = new Random(10);
         Matrix m1 = randomInit(r, 5, 5);
         Matrix m2 = randomInit(r, 5, 5);
@@ -46,7 +46,7 @@ public class Demo {
         System.out.printf("Seed  2 - m6.subtract(m6) %s%n", m6.subtract(m6));
     }
 
-    static void addMain(String[] args) {
+    static void addMain(String[] args) throws MatrixException {
         Random r = new Random(10);
         Matrix m1 = randomInit(r, 5, 5);
         Matrix m2 = randomInit(r, 5, 5);
@@ -74,5 +74,4 @@ public class Demo {
         }
         return new Matrix(doubles);
     }
-
 }

@@ -15,7 +15,7 @@ class MatrixConstructorsTest {
 
     @ParameterizedTest
     @MethodSource("casesCreateMatrixWithGivenRowsAndColsShouldCreate")
-    void testCreateMatrixWithGivenRowsAndColsShouldCreate(int r, int c) {
+    void testCreateMatrixWithGivenRowsAndColsShouldCreate(int r, int c) throws MatrixException {
         Matrix m = new Matrix(r, c);
         assertEquals(r, m.getRows());
         assertEquals(c, m.getColumns());

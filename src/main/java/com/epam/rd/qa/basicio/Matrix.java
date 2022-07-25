@@ -1,121 +1,106 @@
 package com.epam.rd.qa.basicio;
 
-/**
- * Encapsulates two-dimensional array-matrix block of real ({@code double}) type.
- * {@code Matrix} is the cover for two-dimensional array of real values, storing matrix
- * values with operations of matrix addition, deduction, and multiplication.
- */
 public class Matrix {
 
-    /**
-     * Creates an empty matrix with predetermined number
-     * of rows and columns (all values in matrix equal to 0)
-     *
-     * @param rows number of rows
-     * @param cols number of columns
-     * @throws MatrixException if {@code rows} or {@code cols} less than 1
-     */
+    private final int rows;
+    private final int cols;
+    private final double[][] mainMatrix;
+
     public Matrix(int rows, int cols) throws MatrixException {
-        throw new UnsupportedOperationException();
+        if (rows < 1 || cols < 1) {
+            throw new MatrixException("");
+        }
+        this.rows = rows;
+        this.cols = cols;
+        this.mainMatrix = new double[this.rows][this.cols];
     }
 
-    /**
-     * Creates a matrix based on existing two-dimensional array
-     *
-     * @param values two-dimensional array
-     * @throws MatrixException if {@code rows} or {@code cols} less than 1
-     */
-    public Matrix(double[][] values) throws MatrixException {
-        throw new UnsupportedOperationException();
+    public Matrix(double[][] values) {
+        if (values.length < 1 || values[0].length < 1) {
+            throw new MatrixException();
+        }
+
+        for (int i = 0; i < values.length - 1; i++) {
+            if (values[i].length != values[i + 1].length) {
+                throw new MatrixException("Bad size of matrix");
+            }
+        }
+        this.rows = values.length;
+        this.cols = values[0].length;
+        this.mainMatrix = values;
     }
 
-    /**
-     * Returns count of matrix rows.
-     *
-     * @return count of rows in the matrix
-     */
-    public int getRows() {
-        throw new UnsupportedOperationException();
+    public int getRows() throws MatrixException {
+        if (this.mainMatrix.length < 1) {
+            throw new MatrixException("Bad size of matrix");
+        }
+        return this.mainMatrix.length;
     }
 
-    /**
-     * Returns count of matrix columns
-     *
-     * @return count of columns in the matrix
-     */
-    public int getColumns() {
-        throw new UnsupportedOperationException();
+    public int getColumns() throws MatrixException {
+        if (this.mainMatrix[0].length < 1) {
+            throw new MatrixException("Bad size of matrix");
+        }
+        return this.mainMatrix[0].length;
     }
 
-    /**
-     * Returns an element via predetermined correct indexes.
-     *
-     * @param row row index
-     * @param col column index
-     * @return the element via indexes
-     * @throws MatrixException if index out of bounds
-     */
-    public double get(int row, int col) throws MatrixException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Sets new value via predetermined correct indexes.
-     *
-     * @param row   row index
-     * @param col   column index
-     * @param value value to set
-     * @throws MatrixException if index out of bounds
-     */
-    public void set(int row, int col, double value) throws MatrixException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Returns standard two-dimensional array out of matrix.
-     * Any changes in the returned array will be reflected to internal array.
-     *
-     * @return matrix values
-     */
     public double[][] toArray() {
-        throw new UnsupportedOperationException();
+        return this.mainMatrix;
     }
 
-    /**
-     * Adds all elements of {@code other} matrix to corresponding elements
-     * of this matrix and creates new {@code Matrix} with resulting two-dimensional array
-     *
-     * @param other another {@code Matrix} object
-     * @return new matrix
-     * @throws MatrixException if matrices have different size
-     */
+    public double get(int row, int col) throws MatrixException {
+        if (row < 0 || col < 0 || row >= this.getRows() || col >= this.getColumns()) {
+            throw new MatrixException("Bad size of matrix");
+        }
+        return this.mainMatrix[row][col];
+    }
+
+    public void set(int row, int col, double value) {
+        if (row < 0 || col < 0 || row >= this.getRows() || col >= this.getColumns()) {
+            throw new MatrixException("You should check values before set");
+        }
+        this.mainMatrix[row][col] = value;
+    }
+
     public Matrix add(Matrix other) throws MatrixException {
-        throw new UnsupportedOperationException();
+        if (this.getRows() != other.getRows() || this.getColumns() != other.getColumns()) {
+            throw new MatrixException();
+        }
+
+        Matrix addMatrix = new Matrix(this.getRows(), this.getColumns());
+        for (int r = 0; r < addMatrix.getRows(); r++) {
+            for (int l = 0; l < addMatrix.getColumns(); l++) {
+                addMatrix.set(r, l, this.get(r, l) + other.get(r, l));
+            }
+        }
+        return addMatrix;
     }
 
-    /**
-     * Subtract all elements of {@code other} matrix from corresponding elements
-     * of this matrix and creates new {@code Matrix} with resulting two-dimensional array
-     *
-     * @param other another {@code Matrix} object
-     * @return new matrix
-     * @throws MatrixException if matrices have different size
-     */
     public Matrix subtract(Matrix other) throws MatrixException {
-        throw new UnsupportedOperationException();
+        if (this.getRows() != other.getRows() || this.getColumns() != other.getColumns()) {
+            throw new MatrixException();
+        }
+        Matrix subtractMatrix = new Matrix(this.getRows(), other.getColumns());
+        for (int r = 0; r < subtractMatrix.getRows(); r++) {
+            for (int l = 0; l < subtractMatrix.getColumns(); l++) {
+                subtractMatrix.set(r, l, this.get(r, l) - other.get(r, l));
+            }
+        }
+        return subtractMatrix;
     }
 
-    /**
-     * Multiply this matrix to {@code other} matrix.<br/>
-     * See
-     * <a href="https://en.wikipedia.org/wiki/Matrix_multiplication">Matrix multiplication</a>
-     * <a href="https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm">Matrix multiplication algorithm</a>
-     *
-     * @param other another matrix
-     * @return new matrix
-     * @throws MatrixException if matrices have non-compliant sizes
-     */
     public Matrix multiply(Matrix other) throws MatrixException {
-        throw new UnsupportedOperationException();
+        if (this.getColumns() != other.getRows()) {
+            throw new MatrixException();
+        }
+        double[][] tempArray = new double[this.getRows()][other.getColumns()];
+        for (int i = 0; i < this.getRows(); i++) {
+            for (int j = 0; j < other.getColumns(); j++) {
+                for (int k = 0; k < other.getRows(); k++) {
+                    tempArray[i][j] += this.mainMatrix[i][k] * other.get(k, j);
+                }
+            }
+        }
+        return new Matrix(tempArray);
     }
 }

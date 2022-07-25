@@ -11,7 +11,7 @@ class MatrixTest {
     Matrix matrix = new Matrix(values);
 
     @Test
-    void testGetShouldReturn() {
+    void testGetShouldReturn() throws MatrixException {
         for (int i = 0; i < matrix.getRows(); i++) {
             for (int j = 0; j < matrix.getColumns(); j++) {
                 assertEquals(values[i][j], matrix.get(i, j));
@@ -20,7 +20,7 @@ class MatrixTest {
     }
 
     @Test
-    void testSetShouldSet() {
+    void testSetShouldSet() throws MatrixException {
         double[][] expected = new double[values.length][];
         for (int i = 0; i < values.length; i++) {
             expected[i] = Arrays.copyOf(values[i], values[i].length);

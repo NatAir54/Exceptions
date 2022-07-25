@@ -111,11 +111,11 @@ class MatrixOperationsTest {
 
     @ParameterizedTest
     @MethodSource("casesAddMatrixShouldReturn")
-    void testAddMatrixShouldReturn(Matrix m1, Matrix m2, Matrix expected) {
+    void testAddMatrixShouldReturn(Matrix m1, Matrix m2, Matrix expected) throws MatrixException {
         assertArrayEquals(expected.toArray(), m1.add(m2).toArray());
     }
 
-    static Stream<Arguments> casesAddMatrixShouldReturn() {
+    static Stream<Arguments> casesAddMatrixShouldReturn() throws MatrixException {
         Random r = new Random(10);
         Matrix m1 = randomInit(r, 5, 5);
         Matrix m2 = randomInit(r, 5, 5);
@@ -145,7 +145,7 @@ class MatrixOperationsTest {
         assertThrows(MatrixException.class, () -> m1.add(m2));
     }
 
-    static Stream<Arguments> casesAddMatrixShouldThrow() {
+    static Stream<Arguments> casesAddMatrixShouldThrow() throws MatrixException {
         return Stream.of(
                 Arguments.of(new Matrix(1,1), new Matrix(2,2)),
                 Arguments.of(new Matrix(2,1), new Matrix(1,2)),
@@ -155,11 +155,11 @@ class MatrixOperationsTest {
 
     @ParameterizedTest
     @MethodSource("casesSubMatrixShouldReturn")
-    void testSubMatrixShouldReturn(Matrix m1, Matrix m2, Matrix expected) {
+    void testSubMatrixShouldReturn(Matrix m1, Matrix m2, Matrix expected) throws MatrixException {
         assertArrayEquals(expected.toArray(), m1.subtract(m2).toArray());
     }
 
-    static Stream<Arguments> casesSubMatrixShouldReturn() {
+    static Stream<Arguments> casesSubMatrixShouldReturn() throws MatrixException {
         Random r = new Random(10);
         Matrix m1 = randomInit(r, 5, 5);
         Matrix m2 = randomInit(r, 5, 5);
@@ -189,7 +189,7 @@ class MatrixOperationsTest {
         assertThrows(MatrixException.class, () -> m1.subtract(m2));
     }
 
-    static Stream<Arguments> casesSubMatrixShouldThrow() {
+    static Stream<Arguments> casesSubMatrixShouldThrow() throws MatrixException {
         return Stream.of(
                 Arguments.of(new Matrix(1,1), new Matrix(2,2)),
                 Arguments.of(new Matrix(2,1), new Matrix(1,2)),
@@ -199,11 +199,11 @@ class MatrixOperationsTest {
 
     @ParameterizedTest
     @MethodSource("casesMultipleMatrixShouldReturn")
-    void testMultipleMatrixShouldReturn(Matrix m1, Matrix m2, Matrix expected) {
+    void testMultipleMatrixShouldReturn(Matrix m1, Matrix m2, Matrix expected) throws MatrixException {
         assertArrayEquals(expected.toArray(), m1.multiply(m2).toArray());
     }
 
-    static Stream<Arguments> casesMultipleMatrixShouldReturn() {
+    static Stream<Arguments> casesMultipleMatrixShouldReturn() throws MatrixException {
         Random r = new Random(10);
         Matrix m1 = randomInit(r, 5, 5);
         Matrix m2 = randomInit(r, 5, 5);
@@ -230,7 +230,7 @@ class MatrixOperationsTest {
         assertThrows(MatrixException.class, () -> m1.multiply(m2));
     }
 
-    static Stream<Arguments> casesMultipleMatrixShouldThrow() {
+    static Stream<Arguments> casesMultipleMatrixShouldThrow() throws MatrixException {
         return Stream.of(
                 Arguments.of(new Matrix(1,1), new Matrix(2,2)),
                 Arguments.of(new Matrix(2,1), new Matrix(2,1)),
